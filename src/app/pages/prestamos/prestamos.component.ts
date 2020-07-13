@@ -6,6 +6,7 @@ import { UsuarioService } from '../../services/usuario.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import Swal from 'sweetalert2';
 import { PrestamoService } from '../../services/prestamo.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-prestamos',
@@ -14,22 +15,43 @@ import { PrestamoService } from '../../services/prestamo.service';
 })
 export class PrestamosComponent implements OnInit {
 
-  objUsuario: Usuario[] = [];
+  listUsuario: Usuario[] = [];
   objPrestamo: Prestamo = new Prestamo();
+  objUsuario: Usuario = new Usuario();
   selectUsuario: string = "";
   valorBase: number;
+  titulo: string;
+  id: any;
 
   constructor(private usuarioService: UsuarioService,
     private prestamoService: PrestamoService,
-    private spinner: NgxSpinnerService) { }
+    private spinner: NgxSpinnerService,
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
+
+
+    this.id = this.route.snapshot.paramMap.get('id');
+
+    if (this.id !== 'nuevo') {
+
+      this.titulo = "Pagar prestamo";
+      this.prestamoService.getPrestamo(this.id).subscribe(
+        (data: Prestamo) => {
+          this.objPrestamo = data;
+          this.selectUsuario = data.cedula.toString();
+          this.objPrestamo.id = this.id
+        }
+      );
+
+    } else
+      this.titulo = "Solicitar préstamo";
 
     this.valorBase = parseInt(sessionStorage.getItem("valorBase"));
     this.spinner.show();
     this.usuarioService.consultarUsuario().subscribe(
       data => {
-        this.objUsuario = data
+        this.listUsuario = data
       },
       err => {
         this.spinner.hide();
@@ -54,7 +76,7 @@ export class PrestamosComponent implements OnInit {
       if (this.objPrestamo.cedula)
         this.validarPrestamoUsuario(this.objPrestamo.cedula);
       else
-      this.mostrarAlerta('Alerta','Debe seleccionar un usuario', 'warning');
+        this.mostrarAlerta('Alerta', 'Debe seleccionar un usuario', 'warning');
 
 
     }
@@ -111,8 +133,14 @@ export class PrestamosComponent implements OnInit {
         if (cantidad.length > 0) {
           this.mostrarAlerta('Error', 'Este usuario ya le fue negado un prestamo por lo tanto no puede solicitar uno nuevo', 'error')
 
-        } else
-          this.crearPrestamoUsuario();
+        } else {
+
+          if (this.id !== 'nuevo')
+            this.actualizarUsuario(false);
+          else
+            this.crearPrestamoUsuario();
+
+        }
 
         this.spinner.hide();
 
@@ -138,12 +166,41 @@ export class PrestamosComponent implements OnInit {
             sessionStorage.setItem("valorBase", this.valorBase.toString());
           }
 
+          this.actualizarUsuario(true, res.aprobado == 'Si' ? true : false, false);
+
         }
       }
     );
 
     Swal.showLoading();
 
+
+  }
+
+  actualizarPrestamo() {
+
+  }
+
+  actualizarUsuario(tipoAct: boolean, estadoC?: boolean, pagoC?: boolean) {
+
+    let id = this.listUsuario.filter(x => x.cedula == this.selectUsuario.toString());
+
+    this.objUsuario = id[0];
+
+    if (tipoAct) {
+      this.objUsuario.estadoCredito = estadoC;
+      this.objUsuario.valor = this.objPrestamo.valor;
+      this.objUsuario.pagoCredito = pagoC;
+
+    }
+    else {
+      if (this.objUsuario.valor == this.objPrestamo.valor) {
+        this.objUsuario.pagoCredito = true;
+      }
+    }
+
+
+    this.usuarioService.actualizarUsuario(this.objUsuario);
 
   }
 

@@ -10,11 +10,11 @@ import { ConsultarPrestamoComponent } from './pages/consultar-prestamo/consultar
 const routes: Routes = [
 
   { path: 'home', component: HomeComponent },
-  { path: 'prestamo', component: PrestamosComponent },
+  { path: 'prestamo/:id', component: PrestamosComponent },
   { path: 'usuario', component: UsuarioComponent },
   { path: 'consulta-usuario', component: ConsultarUsuarioComponent },
   { path: 'consulta-prestamo', component: ConsultarPrestamoComponent },
-  { path: '**', pathMatch: 'full', redirectTo: 'home' }
+  // { path: '**', pathMatch: 'full', redirectTo: 'home' }
 
 ];
 

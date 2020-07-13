@@ -61,8 +61,7 @@
           name="valorP"
           [(ngModel)]="objUsuario.valor"
           class="form-control"
-          placeholder="Valor del préstamo"
-          required
+          placeholder="Valor del préstamo"          
         />
       </div>
 
@@ -86,8 +85,7 @@
           class="form-control"
           name="estadoC"
           [(ngModel)]="selectEstado"
-          (ngModelChange)="modelChangeEstadoC($event)"
-          required
+          (ngModelChange)="modelChangeEstadoC($event)"          
         >
           <option empty-option="" value="" selected>Seleccionar</option>
           <option value="true">Aprobado</option>
@@ -103,8 +101,7 @@
           class="form-control"
           name="pagoC"
           [(ngModel)]="selectPago"
-          (ngModelChange)="modelChangePagoC($event)"
-          required
+          (ngModelChange)="modelChangePagoC($event)"          
         >
           <option empty-option="" value="" selected>Seleccionar</option>
           <option value="true">Si</option>

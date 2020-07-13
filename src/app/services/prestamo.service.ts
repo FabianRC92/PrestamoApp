@@ -14,7 +14,7 @@ export class PrestamoService {
   constructor(private http: HttpClient) { }
 
 
-  crearPrestamo(prestamo: Prestamo){
+  crearPrestamo(prestamo: Prestamo) {
 
     return this.http.post(`${this.URL}/prestamo.json`, prestamo).pipe(
       map((data: any) => {
@@ -22,10 +22,10 @@ export class PrestamoService {
         return prestamo;
       })
     );
-    
+
   }
 
-  consultarPrestamo(){
+  consultarPrestamo() {
 
     return this.http.get(`${this.URL}/prestamo.json`).pipe(
       map(
@@ -54,5 +54,9 @@ export class PrestamoService {
     return prestamos;
 
   }
+
+  getPrestamo(id: string) {
+    return this.http.get(`${this.URL}/prestamo/${id}.json`);
+  }  
 
 }

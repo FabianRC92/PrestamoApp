@@ -25,7 +25,7 @@ export class UsuarioService {
 
   }
 
-  consultarUsuario(){
+  consultarUsuario() {
 
     return this.http.get(`${this.URL}/usuario.json`).pipe(
       map(
@@ -55,6 +55,17 @@ export class UsuarioService {
 
   }
 
+  actualizarUsuario(usuario: Usuario) {
+   
+    const usuarioTemp = {
+      ...usuario
+    };
+
+    delete usuarioTemp.id;
+
+    return this.http.put(`${this.URL}/usuario/${usuario.id}.json`, usuarioTemp);
+    
+  }
 
 
 }

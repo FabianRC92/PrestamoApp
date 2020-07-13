@@ -2,7 +2,7 @@
   <div class="col">
     <div class="row">
       <div class="col-sm">
-        <h1>Solicitar prestamo</h1>
+        <h1>{{ titulo }}</h1>
       </div>
       <div class="col-sm">
         <app-valor-base valorActual="this.objPrestamo.valor"></app-valor-base>
@@ -19,9 +19,10 @@
           [(ngModel)]="selectUsuario"
           (ngModelChange)="modelChangeCedula($event)"
           name="cedula"
+          [disabled]="this.id !== 'nuevo'"
         >
           <option empty-option="" value="" selected>Seleccionar</option>
-          <option [value]="usuario.cedula" *ngFor="let usuario of objUsuario">
+          <option [value]="usuario.cedula" *ngFor="let usuario of listUsuario">
             {{ usuario.cedula }} - {{ usuario.nombre }}
           </option>
         </select>
@@ -37,7 +38,6 @@
           [(ngModel)]="objPrestamo.valor"
           class="form-control"
           placeholder="Valor del prestamo"
-          
           required
         />
       </div>
