@@ -1,0 +1,64 @@
+<div class="row">
+  <div class="col-sm">
+    <h1>Lista de prestamos</h1>
+  </div>
+  <div class="col-sm">
+    <app-valor-base></app-valor-base>
+  </div>
+</div>
+<hr />
+
+<table
+  class="table mt-3 animated fadeIn faster"
+  *ngIf="!cargando && objPrestamo.length > 0"
+>
+  <caption>
+    Listado de prestamos
+  </caption>
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Cedula</th>
+      <th scope="col">Valor</th>
+      <th scope="col">Estado crédito</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let prest of objPrestamo; let i = index">
+      <th scope="row">{{ i + 1 }}</th>
+      <td>{{ prest.cedula }}</td>
+      <td>{{ prest.valor }}</td>
+      <td>
+        <label *ngIf="prest.aprobado == 'Si'" class="badge badge-success"
+          >Aprobado</label
+        >
+        <label *ngIf="prest.aprobado == 'No'" class="badge badge-danger"
+          >Rechazado</label
+        >
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div
+  class="alert alert-info text-center mt-3 animated fadeIn faster"
+  *ngIf="cargando"
+>
+  <h4 class="alert-heading">Cargando</h4>
+  <p>
+    <em class="fa fa-sync-alt fa-spin fa-2x"></em>
+  </p>
+  <p class="mb-0">
+    Espere por favor
+  </p>
+</div>
+
+<div
+  *ngIf="cargando && objPrestamo.length === 0"
+  class="alert alert-warning text-center mt-3 animated fadeIn faster"
+>
+  <h4 class="alert-heading">No hay registros</h4>
+  <p>
+    <em class="fa fa-exclamation fa-spin fa-2x"></em>
+  </p>
+</div>

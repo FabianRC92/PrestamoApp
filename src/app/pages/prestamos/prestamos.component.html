@@ -1,0 +1,55 @@
+<div class="row animated fadeIn faster">
+  <div class="col">
+    <div class="row">
+      <div class="col-sm">
+        <h1>Solicitar prestamo</h1>
+      </div>
+      <div class="col-sm">
+        <app-valor-base valorActual="this.objPrestamo.valor"></app-valor-base>
+      </div>
+    </div>
+    <br />
+    <form (ngSubmit)="guardar(f)" #f="ngForm">
+      <div class="form-group">
+        <label>
+          Usuario
+        </label>
+        <select
+          class="form-control"
+          [(ngModel)]="selectUsuario"
+          (ngModelChange)="modelChangeCedula($event)"
+          name="cedula"
+        >
+          <option empty-option="" value="" selected>Seleccionar</option>
+          <option [value]="usuario.cedula" *ngFor="let usuario of objUsuario">
+            {{ usuario.cedula }} - {{ usuario.nombre }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>
+          Valor crédito
+        </label>
+        <input
+          type="number"
+          name="valorC"
+          [(ngModel)]="objPrestamo.valor"
+          class="form-control"
+          placeholder="Valor del prestamo"
+          
+          required
+        />
+      </div>
+
+      <hr />
+
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary w-25">
+          <em class="fa fa-save"></em>
+          Guardar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

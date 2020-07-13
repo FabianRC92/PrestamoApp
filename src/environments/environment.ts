@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  valorBaseBanco: 100000000,
+  URL:'https://prestamobd-ae61e.firebaseio.com'
 };
 
 /*
