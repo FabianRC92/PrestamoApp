@@ -51,7 +51,10 @@ export class PrestamosComponent implements OnInit {
 
     if (this.validacionesPrestamo()) {
 
-      this.validarPrestamoUsuario(this.objPrestamo.cedula);
+      if (this.objPrestamo.cedula)
+        this.validarPrestamoUsuario(this.objPrestamo.cedula);
+      else
+      this.mostrarAlerta('Alerta','Debe seleccionar un usuario', 'warning');
 
 
     }
